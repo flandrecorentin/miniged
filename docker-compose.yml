@@ -1,0 +1,49 @@
+version: '3.1'
+
+services:
+
+  mongo:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: minigeddatabase
+    volumes:
+      - datamongodb:/data/db
+  app:
+    build: ./miniged-backend
+    container_name: miniged
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
+      - minio
+    environment:
+      MINIO_SERVER_ACCESS_KEY: ye2AVxvggbdd0OOG
+      MINIO_SERVER_SECRET_KEY: QtBcVmbhTUNC1bZBxUYkT8byoy0OQzRT
+  frontend:
+    build: ./miniged-frontend
+    container_name: frontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - app
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - 9000:9000 
+    environment: 
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin 
+    volumes:
+      - storage-minio:/data
+    restart: always
+    command: server /data
+volumes:
+  datamongodb:
+  storage-minio:

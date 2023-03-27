@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.7.0</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.smile</groupId>
+	<artifactId>miniged</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>miniged</name>
+	<description>Demo project for Spring Boot</description>
+	<properties>
+		<java.version>11</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<type>jar</type>
+			<version>3.5.6-Final</version>
+		</dependency>
+		
+		<!-- Dépendaces pour partie web -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<!-- Dépendance pour les logs -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.17.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.16.0</version>
+		</dependency>
+
+		<!-- Dépendance minio -->
+		<dependency>
+			<groupId>io.minio</groupId>
+			<artifactId>minio</artifactId>
+			<version>8.4.2</version>
+		</dependency>
+
+		<!-- Dépendance swagger -->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-core</artifactId>
+			<scope>compile</scope>
+			<version>1.5.23</version>
+		</dependency>
+	</dependencies>
+	
+
+	<build>
+		<plugins>
+			<!-- Plugin maven spring boot maven plugin -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- Plugin swagger  -->
+			<plugin>
+				<groupId>com.github.kongchen</groupId>
+		
+				<artifactId>swagger-maven-plugin</artifactId>
+				<version>3.1.8</version>
+				<configuration>
+					<apiSources>
+						<apiSource>
+							<springmvc>true</springmvc>
+							<locations>
+								<location>com.smile.miniged.controller</location>
+							</locations>
+							<schemes>http</schemes>
+							<host>localhost:8080</host>
+							<info>
+								<title>miniGED API</title>
+								<version>v1</version>
+								<description>API of miniGED entry points</description>
+								<contact>
+									<email>
+										corentin.flandre@smile.fr
+									</email>
+									<name>Flandre Corentin</name>
+									<url>https://flandrecorentin.github.io/</url>
+								</contact>
+							</info>
+							<outputFormats>yaml</outputFormats>
+							<swaggerDirectory>target/swagger</swaggerDirectory>
+							<!-- <securityDefinitions>
+								<securityDefinition>
+									<json>/security.json</json>
+								</securityDefinition>
+							</securityDefinitions> -->
+						</apiSource>
+					</apiSources>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
